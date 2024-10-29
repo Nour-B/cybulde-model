@@ -7,6 +7,6 @@ set -o nounset
 if [[ "${IS_PROD_ENV}" == "true" ]]; then
     echo "production service"
 else
-	/start-tracking-server.sh &
-	tail -F anything
+	/start-tracking-server.sh
+	#tail -F anything
 fi
