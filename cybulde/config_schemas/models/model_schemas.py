@@ -6,12 +6,15 @@ from omegaconf import MISSING
 
 from cybulde.config_schemas.models import adapter_schemas, backbone_schemas, head_schemas
 
+from cybulde.utils.mixins import LoggableParamsMixin
 
 
 @dataclass
-class ModelConfig:
+class ModelConfig(LoggableParamsMixin):
     _target_: str = MISSING
 
+    def loggable_params(self) -> list[str]:
+        return ["_target_"]
 
 
 @dataclass

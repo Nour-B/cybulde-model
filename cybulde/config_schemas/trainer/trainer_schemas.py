@@ -5,11 +5,11 @@ from omegaconf import SI
 from hydra.core.config_store import ConfigStore
 
 from cybulde.config_schemas.trainer import callbacks_schemas, logger_schemas
-#from cybulde.utils.mixins import LoggableParamsMixin
+from cybulde.utils.mixins import LoggableParamsMixin
 
 
 @dataclass
-class TrainerConfig:
+class TrainerConfig(LoggableParamsMixin):
     _target_: str = "lightning.pytorch.trainer.trainer.Trainer"
     accelerator: str = "auto"
     strategy: str = "ddp_find_unused_parameters_true"

@@ -4,13 +4,14 @@ import os
 from contextlib import contextmanager
 from typing import TYPE_CHECKING, Any, Generator, Iterable, Optional
 
+from cybulde.utils.mixins import LoggableParamsMixin
 import mlflow
 
 from mlflow.pyfunc import PythonModel
 from mlflow.tracking.fluent import ActiveRun
 
 from cybulde.config_schemas.infrastructure.infrastructure_schema import MLFlowConfig
-#from cybulde.utils.mixins import LoggableParamsMixin
+
 
 MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI")
 
@@ -49,7 +50,7 @@ def log_artifacts_for_reproducibility() -> None:
     for location_to_store in locations_to_store:
         mlflow.log_artifact(location_to_store, "reproduction")
 
-'''
+
 def log_training_hparams(config: "Config") -> None:
     logged_nodes = set()
 
@@ -72,7 +73,7 @@ def log_training_hparams(config: "Config") -> None:
 
     params = dict(loggable_params(config, []))
     mlflow.log_params(params)
-'''
+
 
 def get_client() -> mlflow.tracking.MlflowClient:
     return mlflow.tracking.MlflowClient(MLFLOW_TRACKING_URI)
