@@ -52,10 +52,9 @@ guard-%:
 local-generate-final-config: up
 	@$(DOCKER_COMPOSE_EXEC) python cybulde/generate_final_config.py ${OVERRIDES}
 
-
 ## Run tasks
-local-run-tasks: up
-	$(DOCKER_COMPOSE_EXEC) python ./cybulde/run-tasks.py
+local-run-tasks: local-generate-final-config
+	$(DOCKER_COMPOSE_EXEC) torchrun cybulde/run_tasks.py
 
 ## Starts jupyter lab
 notebook: up

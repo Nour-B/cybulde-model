@@ -1,13 +1,12 @@
 from typing import Any, Callable, Optional, Protocol
 
-from cybulde.data_modules.transformations import HuggingFaceTokenizationTransformation
 from lightning.pytorch import LightningDataModule
 from torch import Tensor
 from torch.utils.data import BatchSampler, DataLoader, Dataset, Sampler, default_collate
 from transformers import BatchEncoding
 
 from cybulde.data_modules.datasets import TextClassificationDataset
-
+from cybulde.models.transformations import HuggingFaceTokenizationTransformation, Transformation
 
 
 class DataModule(LightningDataModule):
@@ -48,6 +47,11 @@ class DataModule(LightningDataModule):
             drop_last=self.drop_last,
             persistent_workers=self.persistent_workers,
         )
+
+
+class PartialDataModuleType(Protocol):
+    def __call__(self, transformation: Transformation) -> DataModule:
+        ...
 
 
 class TextClassificationDataModule(DataModule):

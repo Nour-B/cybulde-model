@@ -1,6 +1,7 @@
 from abc import abstractmethod
 from typing import Optional
 
+from cybulde.data_modules.transformations import Transformation
 from torch import Tensor, nn
 from transformers import BatchEncoding
 
@@ -11,10 +12,9 @@ from cybulde.models.heads import Head
 
 
 class Model(nn.Module):
-    pass
-    #abstractmethod
-    #def get_transformation(self) -> Transformation:
-    #...
+    @abstractmethod
+    def get_transformation(self) -> Transformation:
+        ...
 
 
 class BinaryTextClassificationModel(Model):
@@ -32,4 +32,5 @@ class BinaryTextClassificationModel(Model):
         assert isinstance(output, Tensor)
         return output
 
-   
+    def get_transformation(self) -> Transformation:
+        return self.backbone.get_transformation()

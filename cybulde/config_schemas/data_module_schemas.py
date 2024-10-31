@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from hydra.core.config_store import ConfigStore
-from omegaconf import MISSING
+from omegaconf import MISSING, SI
 from cybulde.config_schemas import transformation_schemas 
 
 @dataclass
@@ -28,9 +28,17 @@ class TextClassificationDataModuleConfig(DataModuleConfig):
     label_column_name: str = "label"
 
 
+@dataclass
+class ScrappedDataTextClassificationDataModuleConfig(TextClassificationDataModuleConfig):
+    batch_size: int = 64
+    train_df_path: str = "gs://cybulde-n/data/processed/default_run/train.parquet"
+    dev_df_path: str = "gs://cybulde-n/data/processed/default_run/dev.parquet"
+    test_df_path: str = "gs://cybulde-n/data/processed/default_run/test.parquet"
+    transformation: transformation_schemas.TransformationConfig = SI(
+        "${..lightning_module.model.backbone.transformation}"
+    )
 
 def setup_config() -> None:
-     
     transformation_schemas.setup_config()
 
     cs = ConfigStore.instance()
@@ -39,5 +47,3 @@ def setup_config() -> None:
         group="tasks/data_module",
         node=TextClassificationDataModuleConfig,
     )
-
-

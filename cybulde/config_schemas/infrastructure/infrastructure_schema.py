@@ -21,10 +21,17 @@ class MLFlowConfig:
 
 @dataclass
 class InfrastructureConfig:
-    project_id: str = "cybulde-n"
+    project_id: str = "cybulde"
     zone: str = "europe-west4-b"
     #instance_group_creator: InstanceGroupCreatorConfig = InstanceGroupCreatorConfig()
     mlflow: MLFlowConfig = MLFlowConfig()
-   
+    #etcd_ip: Optional[str] = "10.164.0.12:2379"
 
 
+def setup_config() -> None:
+    cs = ConfigStore.instance()
+    cs.store(
+        name="infrastructure_schema",
+        group="infrastructure",
+        node=InfrastructureConfig,
+    )

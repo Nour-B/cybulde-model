@@ -9,7 +9,7 @@ from cybulde.utils.mlflow_utils import activate_mlflow
 if TYPE_CHECKING:
     from cybulde.config_schemas.config_schema import Config
 
-@get_config(config_path="../configs", config_name="config") 
+@get_config(config_path="../configs", config_name="config", to_object=False, return_dict_config=True) 
 def generate_final_config(config: "Config") -> None:
 
     with activate_mlflow(
