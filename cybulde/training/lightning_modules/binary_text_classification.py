@@ -1,7 +1,6 @@
 from collections import defaultdict
 from typing import Optional
 
-from cybulde.data_modules.transformations import Transformation
 import mlflow
 import torch
 
@@ -10,8 +9,7 @@ from torchmetrics.classification import BinaryAccuracy, BinaryConfusionMatrix, B
 from transformers import BatchEncoding
 
 from cybulde.models.models import Model
-
-
+from cybulde.models.transformations import Transformation
 from cybulde.training.lightning_modules.bases import (
     ModelStateDictExportingTrainingLightningModule,
     PartialOptimizerType,

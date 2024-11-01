@@ -22,8 +22,6 @@ class TrainingLightningModuleConfig(LightningModuleConfig, LoggableParamsMixin):
         return ["_target_"]
 
 
-
-
 @dataclass
 class BinaryTextClassificationTrainingLightningModuleConfig(TrainingLightningModuleConfig):
     _target_: str = (

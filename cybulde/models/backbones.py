@@ -1,9 +1,8 @@
-from cybulde.data_modules.transformations import Transformation
 from torch import nn
 from transformers import AutoConfig, AutoModel, BatchEncoding
 from transformers.modeling_outputs import BaseModelOutputWithPooling
 
-
+from cybulde.models.transformations import Transformation
 from cybulde.utils.io_utils import translate_gcs_dir_to_local
 
 

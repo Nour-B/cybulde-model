@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import Optional
 
-from cybulde.data_modules.transformations import Transformation
+from cybulde.models.transformations import Transformation
 from torch import Tensor, nn
 from transformers import BatchEncoding
 

@@ -16,7 +16,7 @@ class TransformationConfig(LoggableParamsMixin):
 
 @dataclass
 class HuggingFaceTokenizationTransformationConfig(TransformationConfig):
-    _target_: str = "cybulde.data_modules.transformations.HuggingFaceTokenizationTransformation"
+    _target_: str = "cybulde.models.transformations.HuggingFaceTokenizationTransformation"
     pretrained_tokenizer_name_or_path: str = MISSING
     max_sequence_length: int = MISSING
 
