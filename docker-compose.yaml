@@ -6,7 +6,7 @@ volumes:
 x-app-template: &APP_TEMPLATE
   user: "${USER_ID:-1000}"
   hostname: "${HOST_NAME:-nour}"
-  image: cybulde-model
+  image: ${DOCKER_IMAGE_NAME}
   build:
     context: .
     dockerfile: ./docker/Dockerfile

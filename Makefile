@@ -54,7 +54,7 @@ guard-%:
 
 ## Generate final config. For overrides use: OVERRIDES=<overrides>
 generate-final-config: up-prod
-	@$(DOCKER_COMPOSE_EXEC_PROD) python cybulde/generate_final_config.py infrastructure.instance_group_creator.intance_template_creator.vm_metadata_config.docker_image=${GCP_DOCKER_REGISTRY_URL}:${IMAGE_TAG} ${OVERRIDES}
+	@$(DOCKER_COMPOSE_EXEC_PROD) python cybulde/generate_final_config.py infrastructure.instance_group_creator.instance_template_creator.vm_metadata_config.docker_image=${GCP_DOCKER_REGISTRY_URL}:${IMAGE_TAG} ${OVERRIDES}
 ## @$(DOCKER_COMPOSE_EXEC_PROD) python cybulde/generate_final_config.py docker_image=${GCP_DOCKER_REGISTRY_URL}:${IMAGE_TAG} ${OVERRIDES}
   
 ## Generate final config local. For overrides use: OVERRIDES=<overrides>
@@ -62,9 +62,12 @@ local-generate-final-config: up
 	@$(DOCKER_COMPOSE_EXEC) python cybulde/generate_final_config.py ${OVERRIDES}
 
 ## Remote run-tasks
+##run-tasks: generate-final-config push
+##	$(DOCKER_COMPOSE_EXEC_PROD) python cybulde/launch_job_on_gcp.py
+
+## Remote run-tasks
 run-tasks: generate-final-config push
 	$(DOCKER_COMPOSE_EXEC_PROD) python cybulde/launch_job_on_gcp.py
-
 
 ## Run tasks
 local-run-tasks: local-generate-final-config
@@ -108,6 +111,20 @@ test: up
 ## Perform a full check
 full-check: lint check-type-annotations
 	$(DOCKER_COMPOSE_EXEC) pytest --cov --cov-report xml --verbose
+
+buildx:
+	@gcloud auth configure-docker eu.gcr.io --quiet
+	@docker buildx build \
+	--builder container \
+	--file ./docker/Dockerfile \
+	--platform linux/amd64,linux/arm64 \
+	--no-cache \
+	--progress auto \
+	--tag "$${GCP_DOCKER_REGISTRY_URL}:$${IMAGE_TAG}" \
+	--build-arg USER_NAME="$${USER_NAME}" \
+    --build-arg USER_ID="$${USER_ID}" \
+	--push .
+
 
 ## Builds docker image
 build:

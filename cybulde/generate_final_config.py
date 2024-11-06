@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 
 import mlflow
 
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig
 
 from cybulde.utils.config_utils import get_config_and_dict_config, save_config_as_yaml
 from cybulde.utils.mlflow_utils import activate_mlflow, log_artifacts_for_reproducibility, log_training_hparams
@@ -14,11 +14,6 @@ if TYPE_CHECKING:
 
 @get_config_and_dict_config(config_path="../configs", config_name="config")  # type: ignore
 def generate_final_config(config: "Config", dict_config: DictConfig) -> None:
-    print(OmegaConf.to_yaml(config))
-    exit(0)
-
-
-
     run: mlflow.ActiveRun
     with activate_mlflow(
         config.infrastructure.mlflow.experiment_name,
