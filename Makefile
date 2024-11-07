@@ -173,6 +173,12 @@ push: guard-IMAGE_TAG build
 mlflow-ssh-tunnel:
 	gcloud compute ssh "$${VM_NAME}" --zone "$${ZONE}" --tunnel-through-iap -- -N -L "$${PROD_MLFLOW_SERVER_PORT}:localhost:$${PROD_MLFLOW_SERVER_PORT}"
 
+## Deploy etcd server on GCE
+deploy-etcd-server:
+	chmod +x ./scripts/deploy-etcd-server.sh
+	./scripts/deploy-etcd-server.sh
+
+
 .DEFAULT_GOAL := help
 
 # Inspired by <http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html>
